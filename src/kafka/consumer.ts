@@ -1,6 +1,6 @@
 import { ConsumerConfig, Kafka, KafkaConfig } from 'kafkajs';
-import { AppParams } from './types';
-import { logInfo } from './utils';
+import { AppParams } from '../types';
+import { logInfo } from '../utils/utils';
 
 export const getConsumer = async (params: AppParams) => {
   const brokers = params.KAFKA_BROKERS?.split(',');

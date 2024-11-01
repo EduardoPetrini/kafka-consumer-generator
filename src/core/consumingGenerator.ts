@@ -1,7 +1,7 @@
 import EventEmitter from "node:events";
 import { Consumer } from "kafkajs";
-import { BatchResult, TopicUnit } from "./types";
-import { logInfo, promisifyListener } from './utils';
+import { BatchResult, TopicUnit } from "../types";
+import { logInfo, promisifyListener } from '../utils/utils';
 
 export async function* messageGenerator(
   consumer: Consumer,

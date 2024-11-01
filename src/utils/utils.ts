@@ -1,6 +1,6 @@
 import EventEmitter from 'node:events';
 import { setTimeout } from 'timers/promises';
-import { AppParams } from './types';
+import { AppParams } from '../types';
 
 export const logInfo = (...args: any[]) => {
   console.log(new Date().toLocaleString(), '[INFO]', ...args);

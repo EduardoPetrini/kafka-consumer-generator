@@ -2,9 +2,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import kafka, { Batch } from 'kafkajs';
-import { checkParams, errorShutdown, logInfo, smoothShutdown } from './utils';
-import { getConsumer } from './consumer';
-import { messageGenerator } from './consumingGenerator';
+import { checkParams, errorShutdown, logInfo, smoothShutdown } from './src/utils/utils';
+import { getConsumer } from './src/kafka/consumer';
+import { messageGenerator } from './src/core/consumingGenerator';
 const { KAFKA_BROKERS, KAFKA_CLIENT_ID, KAFKA_TOPICS, KAFKA_GROUP_ID, COMPLETE_TIMEOUT } = process.env;
 
 logInfo('Starting the app...');
