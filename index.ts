@@ -1,10 +1,10 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import kafka, { Batch } from 'kafkajs';
 import { checkParams, errorShutdown, logInfo, smoothShutdown } from './src/utils/utils';
 import { getConsumer } from './src/kafka/consumer';
 import { messageGenerator } from './src/core/consumingGenerator';
+import { MessageResult } from './src/types';
 const { KAFKA_BROKERS, KAFKA_CLIENT_ID, KAFKA_TOPICS, KAFKA_GROUP_ID, COMPLETE_TIMEOUT } = process.env;
 
 logInfo('Starting the app...');
@@ -43,8 +43,8 @@ const missingParams = checkParams({ KAFKA_BROKERS, KAFKA_CLIENT_ID, KAFKA_TOPICS
     await smoothShutdown();
   }
 
-  const batchResult = result.value as unknown as Batch;
-  logInfo(count, 'result', batchResult.lastOffset);
+  const batchResult = result.value as unknown as MessageResult;
+  logInfo(count, 'result', batchResult.message.offset);
 
   while (!result.done) {
     result = await gen.next();
@@ -57,7 +57,7 @@ const missingParams = checkParams({ KAFKA_BROKERS, KAFKA_CLIENT_ID, KAFKA_TOPICS
       await smoothShutdown();
     }
 
-    const batchResult = result.value as unknown as Batch;
-    logInfo(++count, 'result', batchResult.offsetLag(), batchResult.lastOffset(), batchResult.messages.length);
+    const { message, topic, partition } = result.value as unknown as MessageResult;
+    logInfo(++count, 'result', message.offset, topic, partition);
   }
 })()

@@ -72,19 +72,14 @@ class ConsumerMessages extends EventEmitter {
     this.isStarted = true;
     this.consumer.run({
       eachBatchAutoResolve: true,
-      eachBatch: async ({
-        batch,
-        heartbeat,
-        pause,
-        isRunning,
-        commitOffsetsIfNecessary,
-        isStale,
-        resolveOffset,
-        uncommittedOffsets,
+      eachMessage: async ({
+        message,
+        topic,
+        partition,
       }) => {
-        logInfo('Got batch message', batch.lastOffset())
+        logInfo('Got batch message', message.offset)
         this.resetCounting();
-        this.emit("data", batch);
+        this.emit("data", { message, topic, partition });
         this.initCounting();
       },
     });
